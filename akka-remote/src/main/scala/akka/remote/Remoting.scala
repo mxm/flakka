@@ -228,10 +228,12 @@ private[remote] class Remoting(_system: ExtendedActorSystem, _provider: RemoteAc
   // Not used anywhere only to keep compatibility with RemoteTransport interface
   protected def useUntrustedMode: Boolean = provider.remoteSettings.UntrustedMode
 
-  // Not used anywhere only to keep compatibility with RemoteTransport interface
-  @deprecated("Use the LogRemoteLifecycleEvents setting instead.", "2.3")
-  protected def logRemoteLifeCycleEvents: Boolean = LogRemoteLifecycleEvents
-
+  private[akka] def boundAddresses: Map[String, Set[Address]] = {
+    transportMapping.map {
+      case (scheme, transports) ⇒
+        scheme -> transports.map { case (transport, _) ⇒ transport.boundAddress }
+    }
+  }
 }
 
 /**
