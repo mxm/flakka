@@ -234,6 +234,11 @@ private[remote] class Remoting(_system: ExtendedActorSystem, _provider: RemoteAc
         scheme -> transports.map { case (transport, _) ⇒ transport.boundAddress }
     }
   }
+
+  /**
+   * When this method returns true, RemoteLifeCycleEvents will be logged as well as be put onto the eventStream.
+   */
+  override protected def logRemoteLifeCycleEvents: Boolean = false
 }
 
 /**
