@@ -25,7 +25,7 @@ object TestOptions {
 
   def testBundles(): PaxOption = {
     new DefaultCompositeOption(
-      mavenBundle("com.typesafe.akka", "akka-testkit_%s".format(scalaDepVersion)).versionAsInProject,
+      mavenBundle("com.data-artisans", "akka-testkit_%s".format(scalaDepVersion)).versionAsInProject,
       mavenBundle("org.scalatest", "scalatest_%s".format(scalaDepVersion)).versionAsInProject,
       junitBundles)
   }
@@ -47,7 +47,7 @@ object TestOptions {
   }
 
   def akkaFeature(feature: String): PaxOption = {
-    scanFeatures(maven.groupId("com.typesafe.akka.akka-sample-osgi-dining-hakkers")
+    scanFeatures(maven.groupId("com.data-artisans.akka-sample-osgi-dining-hakkers")
       .artifactId("akka-sample-osgi-dining-hakkers").`type`("xml").classifier("features")
       .version(System.getProperty("project.version")), feature)
   }

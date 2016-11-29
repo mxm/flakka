@@ -1,18 +1,18 @@
 import com.typesafe.sbt.SbtMultiJvm
 import com.typesafe.sbt.SbtMultiJvm.MultiJvmKeys.MultiJvm
 
-val akkaVersion = "2.3-SNAPSHOT"
+val akkaVersion = "2.3-custom"
 
 val project = Project(
-  id = "akka-sample-multi-node-scala",
+  id = "flakka-sample-multi-node-scala",
   base = file("."),
   settings = Project.defaultSettings ++ SbtMultiJvm.multiJvmSettings ++ Seq(
-    name := "akka-sample-multi-node-scala",
-    version := "2.3-SNAPSHOT",
+    name := "flakka-sample-multi-node-scala",
+    version := "2.3-custom",
     scalaVersion := "2.10.4",
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-remote" % akkaVersion,
-      "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion,
+      "com.data-artisans" %% "flakka-remote" % akkaVersion,
+      "com.data-artisans" %% "flakka-multi-node-testkit" % akkaVersion,
       "org.scalatest" %% "scalatest" % "2.0" % "test"),
     // make sure that MultiJvm test are compiled by the default test compilation
     compile in MultiJvm <<= (compile in MultiJvm) triggeredBy (compile in Test),

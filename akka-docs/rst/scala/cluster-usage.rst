@@ -12,7 +12,7 @@ Preparing Your Project for Clustering
 
 The Akka cluster is a separate jar file. Make sure that you have the following dependency in your project::
 
-  "com.typesafe.akka" %% "akka-cluster" % "@version@" @crossString@
+  "com.data-artisans" %% "akka-cluster" % "@version@" @crossString@
 
 A Simple Cluster Example
 ^^^^^^^^^^^^^^^^^^^^^^^^

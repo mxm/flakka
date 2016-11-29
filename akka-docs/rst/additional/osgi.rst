@@ -23,7 +23,7 @@ The ``ActorSystemActivator`` creates the actor system with a class loader that f
 The ``ActorSystemActivator`` class is included in the ``akka-osgi`` artifact::
 
   <dependency>
-    <groupId>com.typesafe.akka</groupId>
+    <groupId>com.data-artisans</groupId>
     <artifactId>akka-osgi_@binVersion@</artifactId>
     <version>@version@</version>
   </dependency>

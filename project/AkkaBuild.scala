@@ -39,14 +39,14 @@ object AkkaBuild extends Build {
   val enableMiMa = true
 
   lazy val buildSettings = Seq(
-    organization := "com.typesafe.akka",
-    version      := "2.3-SNAPSHOT",
+    organization := "com.data-artisans",
+    version      := "2.3-custom",
     scalaVersion := Dependencies.Versions.scala,
     crossScalaVersions := Dependencies.Versions.crossScala
   )
 
   lazy val akka = Project(
-    id = "akka",
+    id = "flakka",
     base = file("."),
     settings = parentSettings ++ Release.settings ++ Unidoc.settings ++ Publish.versionSettings ++
       SphinxSupport.settings ++ Dist.settings ++ s3Settings ++ mimaSettings ++ unidocScaladocSettings ++
@@ -81,7 +81,7 @@ object AkkaBuild extends Build {
   )
 
   lazy val akkaScalaNightly = Project(
-    id = "akka-scala-nightly",
+    id = "flakka-scala-nightly",
     base = file("akka-scala-nightly"),
     // remove dependencies that we have to build ourselves (Scala STM, ZeroMQ Scala Bindings)
     // samples and dataflow don't work with dbuild right now
@@ -124,14 +124,14 @@ object AkkaBuild extends Build {
   ) configs (MultiJvm)
 
   lazy val actor = Project(
-    id = "akka-actor",
+    id = "flakka-actor",
     base = file("akka-actor"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ OSGi.actor ++
       spray.boilerplate.BoilerplatePlugin.Boilerplate.settings ++ Seq(
       // to fix scaladoc generation
       fullClasspath in doc in Compile <<= fullClasspath in Compile,
       libraryDependencies ++= Dependencies.actor,
-      previousArtifact := akkaPreviousArtifact("akka-actor").value
+      previousArtifact := akkaPreviousArtifact("flakka-actor").value
     )
   )
 
@@ -146,27 +146,27 @@ object AkkaBuild extends Build {
   )
 
   lazy val dataflow = Project(
-    id = "akka-dataflow",
+    id = "flakka-dataflow",
     base = file("akka-dataflow"),
     dependencies = Seq(testkit % "test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettingsNoVerificationOfDiagrams  ++ OSGi.dataflow ++ cpsPlugin ++ Seq(
-      previousArtifact := akkaPreviousArtifact("akka-dataflow").value
+      previousArtifact := akkaPreviousArtifact("flakka-dataflow").value
     )
   )
 
   lazy val testkit = Project(
-    id = "akka-testkit",
+    id = "flakka-testkit",
     base = file("akka-testkit"),
     dependencies = Seq(actor),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ OSGi.testkit ++ Seq(
       libraryDependencies ++= Dependencies.testkit,
       initialCommands += "import akka.testkit._",
-      previousArtifact := akkaPreviousArtifact("akka-testkit").value
+      previousArtifact := akkaPreviousArtifact("flakka-testkit").value
     )
   )
 
   lazy val benchJmh = Project(
-    id = "akka-bench-jmh",
+    id = "flakka-bench-jmh",
     base = file("akka-bench-jmh"),
     dependencies = Seq(actor, stream, persistence, testkit).map(_ % "compile;compile->test"),
     settings = defaultSettings ++ Seq(
@@ -175,7 +175,7 @@ object AkkaBuild extends Build {
   )
 
   lazy val actorTests = Project(
-    id = "akka-actor-tests",
+    id = "flakka-actor-tests",
     base = file("akka-actor-tests"),
     dependencies = Seq(testkit % "compile;test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ Seq(
@@ -185,28 +185,28 @@ object AkkaBuild extends Build {
   )
 
   lazy val remote = Project(
-    id = "akka-remote",
+    id = "flakka-remote",
     base = file("akka-remote"),
     dependencies = Seq(actor, actorTests % "test->test", testkit % "test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ OSGi.remote ++ Seq(
       libraryDependencies ++= Dependencies.remote,
       // disable parallel tests
       parallelExecution in Test := false,
-      previousArtifact := akkaPreviousArtifact("akka-remote").value
+      previousArtifact := akkaPreviousArtifact("flakka-remote").value
     )
   )
 
   lazy val multiNodeTestkit = Project(
-    id = "akka-multi-node-testkit",
+    id = "flakka-multi-node-testkit",
     base = file("akka-multi-node-testkit"),
     dependencies = Seq(remote, testkit),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ Seq(
-      previousArtifact := akkaPreviousArtifact("akka-multi-node-testkit").value
+      previousArtifact := akkaPreviousArtifact("flakka-multi-node-testkit").value
     )
   )
 
   lazy val remoteTests = Project(
-    id = "akka-remote-tests",
+    id = "flakka-remote-tests",
     base = file("akka-remote-tests"),
     dependencies = Seq(actorTests % "test->test", multiNodeTestkit),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ multiJvmSettings ++ Seq(
@@ -223,7 +223,7 @@ object AkkaBuild extends Build {
   ) configs (MultiJvm)
 
   lazy val cluster = Project(
-    id = "akka-cluster",
+    id = "flakka-cluster",
     base = file("akka-cluster"),
     dependencies = Seq(remote, remoteTests % "test->test" , testkit % "test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ multiJvmSettings ++ OSGi.cluster ++ Seq(
@@ -234,54 +234,54 @@ object AkkaBuild extends Build {
         (name: String) => (src ** (name + ".conf")).get.headOption.map("-Dakka.config=" + _.absolutePath).toSeq
       },
       scalatestOptions in MultiJvm := defaultMultiJvmScalatestOptions,
-      previousArtifact := akkaPreviousArtifact("akka-cluster").value
+      previousArtifact := akkaPreviousArtifact("flakka-cluster").value
     )
   ) configs (MultiJvm)
 
   lazy val slf4j = Project(
-    id = "akka-slf4j",
+    id = "flakka-slf4j",
     base = file("akka-slf4j"),
     dependencies = Seq(actor, testkit % "test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ OSGi.slf4j ++ Seq(
       libraryDependencies ++= Dependencies.slf4j,
-      previousArtifact := akkaPreviousArtifact("akka-slf4j").value
+      previousArtifact := akkaPreviousArtifact("flakka-slf4j").value
     )
   )
 
   lazy val agent = Project(
-    id = "akka-agent",
+    id = "flakka-agent",
     base = file("akka-agent"),
     dependencies = Seq(actor, testkit % "test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettingsNoVerificationOfDiagrams ++ javadocSettings ++ OSGi.agent ++ Seq(
       libraryDependencies ++= Dependencies.agent,
-      previousArtifact := akkaPreviousArtifact("akka-agent").value
+      previousArtifact := akkaPreviousArtifact("flakka-agent").value
     )
   )
 
   lazy val transactor = Project(
-    id = "akka-transactor",
+    id = "flakka-transactor",
     base = file("akka-transactor"),
     dependencies = Seq(actor, testkit % "test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ OSGi.transactor ++ Seq(
       libraryDependencies ++= Dependencies.transactor,
-      previousArtifact := akkaPreviousArtifact("akka-transactor").value
+      previousArtifact := akkaPreviousArtifact("flakka-transactor").value
     )
   )
 
   lazy val persistence = Project(
-    id = "akka-persistence-experimental",
+    id = "flakka-persistence-experimental",
     base = file("akka-persistence"),
     dependencies = Seq(actor, remote % "test->test", testkit % "test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ experimentalSettings ++ javadocSettings ++ OSGi.persistence ++ Seq(
       fork in Test := true,
       javaOptions in Test := defaultMultiJvmOptions,
       Dependencies.persistence,
-      previousArtifact := akkaPreviousArtifact("akka-persistence-experimental").value
+      previousArtifact := akkaPreviousArtifact("flakka-persistence-experimental").value
     )
   )
 
   lazy val persistenceTck = Project(
-    id = "akka-persistence-tck-experimental",
+    id = "flakka-persistence-tck-experimental",
     base = file("akka-persistence-tck"),
     dependencies = Seq(persistence % "compile;test->test", testkit % "compile->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ experimentalSettings ++ javadocSettings ++ OSGi.persistence ++ Seq(
@@ -293,13 +293,13 @@ object AkkaBuild extends Build {
   )
 
   lazy val stream = Project(
-    id = "akka-stream-experimental",
+    id = "flakka-stream-experimental",
     base = file("akka-stream"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ experimentalSettings ++ javadocSettings ++ OSGi.stream ++ Seq(
       version := "0.3-SNAPSHOT",
       libraryDependencies ++= Dependencies.stream,
       // FIXME include mima when akka-stream-experimental-2.3.x has been released
-      //previousArtifact := akkaPreviousArtifact("akka-stream-experimental")
+      //previousArtifact := akkaPreviousArtifact("flakka-stream-experimental")
       previousArtifact := None,
       fork in Test := true
     )
@@ -308,66 +308,66 @@ object AkkaBuild extends Build {
   val testMailbox = SettingKey[Boolean]("test-mailbox")
 
   lazy val mailboxes = Project(
-    id = "akka-durable-mailboxes",
+    id = "flakka-durable-mailboxes",
     base = file("akka-durable-mailboxes"),
     settings = parentSettings,
     aggregate = Seq(mailboxesCommon, fileMailbox)
   )
 
   lazy val mailboxesCommon = Project(
-    id = "akka-mailboxes-common",
+    id = "flakka-mailboxes-common",
     base = file("akka-durable-mailboxes/akka-mailboxes-common"),
     dependencies = Seq(remote, testkit % "compile;test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ OSGi.mailboxesCommon ++ Seq(
       libraryDependencies ++= Dependencies.mailboxes,
-      previousArtifact := akkaPreviousArtifact("akka-mailboxes-common").value,
+      previousArtifact := akkaPreviousArtifact("flakka-mailboxes-common").value,
       publishArtifact in Test := true
     )
   )
 
   lazy val fileMailbox = Project(
-    id = "akka-file-mailbox",
+    id = "flakka-file-mailbox",
     base = file("akka-durable-mailboxes/akka-file-mailbox"),
     dependencies = Seq(mailboxesCommon % "compile;test->test", testkit % "test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ OSGi.fileMailbox ++ Seq(
       libraryDependencies ++= Dependencies.fileMailbox,
-      previousArtifact := akkaPreviousArtifact("akka-file-mailbox").value
+      previousArtifact := akkaPreviousArtifact("flakka-file-mailbox").value
     )
   )
 
   lazy val zeroMQ = Project(
-    id = "akka-zeromq",
+    id = "flakka-zeromq",
     base = file("akka-zeromq"),
     dependencies = Seq(actor, testkit % "test;test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ OSGi.zeroMQ ++ Seq(
       Dependencies.zeroMQ,
-      previousArtifact := akkaPreviousArtifact("akka-zeromq").value
+      previousArtifact := akkaPreviousArtifact("flakka-zeromq").value
     )
   )
 
   lazy val kernel = Project(
-    id = "akka-kernel",
+    id = "flakka-kernel",
     base = file("akka-kernel"),
     dependencies = Seq(actor, testkit % "test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettingsNoVerificationOfDiagrams ++ javadocSettings ++ Seq(
       libraryDependencies ++= Dependencies.kernel,
-      previousArtifact := akkaPreviousArtifact("akka-kernel").value
+      previousArtifact := akkaPreviousArtifact("flakka-kernel").value
     )
   )
 
   lazy val camel = Project(
-    id = "akka-camel",
+    id = "flakka-camel",
     base = file("akka-camel"),
     dependencies = Seq(actor, slf4j, testkit % "test->test"),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ OSGi.camel ++ Seq(
       libraryDependencies ++= Dependencies.camel,
       testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a"),
-      previousArtifact := akkaPreviousArtifact("akka-camel").value
+      previousArtifact := akkaPreviousArtifact("flakka-camel").value
     )
   )
 
   lazy val osgi = Project(
-    id = "akka-osgi",
+    id = "flakka-osgi",
     base = file("akka-osgi"),
     dependencies = Seq(actor),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ OSGi.osgi ++ Seq(
@@ -378,7 +378,7 @@ object AkkaBuild extends Build {
   )
 
   lazy val samples = Project(
-    id = "akka-samples",
+    id = "flakka-samples",
     base = file("akka-samples"),
     settings = parentSettings ++ ActivatorDist.settings,
     aggregate = Seq(camelSampleJava, camelSampleScala, mainSampleJava, mainSampleScala,
@@ -388,35 +388,35 @@ object AkkaBuild extends Build {
   )
 
   lazy val camelSampleJava = Project(
-    id = "akka-sample-camel-java",
+    id = "flakka-sample-camel-java",
     base = file("akka-samples/akka-sample-camel-java"),
     dependencies = Seq(actor, camel),
     settings = sampleSettings ++ Seq(libraryDependencies ++= Dependencies.camelSample)
   )
 
   lazy val camelSampleScala = Project(
-    id = "akka-sample-camel-scala",
+    id = "flakka-sample-camel-scala",
     base = file("akka-samples/akka-sample-camel-scala"),
     dependencies = Seq(actor, camel),
     settings = sampleSettings ++ Seq(libraryDependencies ++= Dependencies.camelSample)
   )
 
   lazy val fsmSampleScala = Project(
-    id = "akka-sample-fsm-scala",
+    id = "flakka-sample-fsm-scala",
     base = file("akka-samples/akka-sample-fsm-scala"),
     dependencies = Seq(actor),
     settings = sampleSettings
   )
 
   lazy val mainSampleJava = Project(
-    id = "akka-sample-main-java",
+    id = "flakka-sample-main-java",
     base = file("akka-samples/akka-sample-main-java"),
     dependencies = Seq(actor),
     settings = sampleSettings
   )
 
   lazy val mainSampleScala = Project(
-    id = "akka-sample-main-scala",
+    id = "flakka-sample-main-scala",
     base = file("akka-samples/akka-sample-main-scala"),
     dependencies = Seq(actor),
     settings = sampleSettings
@@ -426,7 +426,7 @@ object AkkaBuild extends Build {
            bouncycastle openpgp from sbt-native-packager and sbt-pgp
            java.lang.NoSuchMethodError: org.bouncycastle.openpgp.PGPSecretKeyRing
   lazy val helloKernelSample = Project(
-    id = "akka-sample-hello-kernel",
+    id = "flakka-sample-hello-kernel",
     base = file("akka-samples/akka-sample-hello-kernel"),
     dependencies = Seq(kernel),
     settings = sampleSettings
@@ -434,35 +434,35 @@ object AkkaBuild extends Build {
   */
 
   lazy val remoteSampleJava = Project(
-    id = "akka-sample-remote-java",
+    id = "flakka-sample-remote-java",
     base = file("akka-samples/akka-sample-remote-java"),
     dependencies = Seq(actor, remote),
     settings = sampleSettings
   )
 
   lazy val remoteSampleScala = Project(
-    id = "akka-sample-remote-scala",
+    id = "flakka-sample-remote-scala",
     base = file("akka-samples/akka-sample-remote-scala"),
     dependencies = Seq(actor, remote),
     settings = sampleSettings
   )
 
   lazy val persistenceSampleJava = Project(
-    id = "akka-sample-persistence-java",
+    id = "flakka-sample-persistence-java",
     base = file("akka-samples/akka-sample-persistence-java"),
     dependencies = Seq(actor, persistence),
     settings = sampleSettings
   )
 
   lazy val persistenceSampleScala = Project(
-    id = "akka-sample-persistence-scala",
+    id = "flakka-sample-persistence-scala",
     base = file("akka-samples/akka-sample-persistence-scala"),
     dependencies = Seq(actor, persistence, stream),
     settings = sampleSettings
   )
 
   lazy val clusterSampleJava = Project(
-    id = "akka-sample-cluster-java",
+    id = "flakka-sample-cluster-java",
     base = file("akka-samples/akka-sample-cluster-java"),
     dependencies = Seq(cluster, contrib, remoteTests % "test", testkit % "test"),
     settings = multiJvmSettings ++ sampleSettings ++ Seq(
@@ -480,7 +480,7 @@ object AkkaBuild extends Build {
   ) configs (MultiJvm)
 
   lazy val clusterSampleScala = Project(
-    id = "akka-sample-cluster-scala",
+    id = "flakka-sample-cluster-scala",
     base = file("akka-samples/akka-sample-cluster-scala"),
     dependencies = Seq(cluster, contrib, remoteTests % "test", testkit % "test"),
     settings = multiJvmSettings ++ sampleSettings ++ Seq(
@@ -498,7 +498,7 @@ object AkkaBuild extends Build {
   ) configs (MultiJvm)
 
   lazy val multiNodeSampleScala = Project(
-    id = "akka-sample-multi-node-scala",
+    id = "flakka-sample-multi-node-scala",
     base = file("akka-samples/akka-sample-multi-node-scala"),
     dependencies = Seq(multiNodeTestkit % "test", testkit % "test"),
     settings = multiJvmSettings ++ sampleSettings ++ experimentalSettings ++ Seq(
@@ -511,32 +511,32 @@ object AkkaBuild extends Build {
     )
   ) configs (MultiJvm)
 
-  lazy val osgiDiningHakkersSample = Project(id = "akka-sample-osgi-dining-hakkers",
+  lazy val osgiDiningHakkersSample = Project(id = "flakka-sample-osgi-dining-hakkers",
     base = file("akka-samples/akka-sample-osgi-dining-hakkers"),
     settings = parentSettings ++ osgiSampleSettings
   ) aggregate(osgiDiningHakkersSampleApi, osgiDiningHakkersSampleCommand, osgiDiningHakkersSampleCore,
       osgiDiningHakkersSampleIntegrationTest, uncommons)
 
-  lazy val osgiDiningHakkersSampleApi = Project(id = "akka-sample-osgi-dining-hakkers-api",
+  lazy val osgiDiningHakkersSampleApi = Project(id = "flakka-sample-osgi-dining-hakkers-api",
     base = file("akka-samples/akka-sample-osgi-dining-hakkers/api"),
     settings = sampleSettings ++ osgiSampleSettings ++ OSGi.osgiDiningHakkersSampleApi
   )dependsOn(actor)
 
-  lazy val osgiDiningHakkersSampleCommand = Project(id = "akka-sample-osgi-dining-hakkers-command",
+  lazy val osgiDiningHakkersSampleCommand = Project(id = "flakka-sample-osgi-dining-hakkers-command",
     base = file("akka-samples/akka-sample-osgi-dining-hakkers/command"),
     settings = sampleSettings ++ osgiSampleSettings ++ OSGi.osgiDiningHakkersSampleCommand ++ Seq(
       libraryDependencies ++= Dependencies.osgiDiningHakkersSampleCommand
     )
   ) dependsOn (osgiDiningHakkersSampleApi, actor)
 
-  lazy val osgiDiningHakkersSampleCore = Project(id = "akka-sample-osgi-dining-hakkers-core",
+  lazy val osgiDiningHakkersSampleCore = Project(id = "flakka-sample-osgi-dining-hakkers-core",
     base = file("akka-samples/akka-sample-osgi-dining-hakkers/core"),
     settings = sampleSettings ++ osgiSampleSettings ++ OSGi.osgiDiningHakkersSampleCore ++ Seq(
       libraryDependencies ++= Dependencies.osgiDiningHakkersSampleCore
     )
   ) dependsOn (osgiDiningHakkersSampleApi, actor, remote, cluster, persistence, osgi)
 
-  lazy val osgiDiningHakkersSampleTest = Project(id = "akka-sample-osgi-dining-hakkers-test",
+  lazy val osgiDiningHakkersSampleTest = Project(id = "flakka-sample-osgi-dining-hakkers-test",
     base = file("akka-samples/akka-sample-osgi-dining-hakkers/integration-test"),
     settings = sampleSettings ++ osgiSampleSettings ++ OSGi.osgiDiningHakkersSampleCore ++ Seq(
       libraryDependencies ++= Dependencies.osgiDiningHakkersSampleTest
@@ -544,7 +544,7 @@ object AkkaBuild extends Build {
   ) dependsOn (osgiDiningHakkersSampleCommand, osgiDiningHakkersSampleCore, testkit )
 
   //TODO to remove it as soon as the uncommons gets OSGified, see ticket #2990
-  lazy val uncommons = Project(id = "akka-sample-osgi-dining-hakkers-uncommons",
+  lazy val uncommons = Project(id = "flakka-sample-osgi-dining-hakkers-uncommons",
     base = file("akka-samples/akka-sample-osgi-dining-hakkers/uncommons"),
     settings = sampleSettings ++ osgiSampleSettings ++ OSGi.osgiDiningHakkersSampleUncommons ++ Seq(
       libraryDependencies ++= Dependencies.uncommons,
@@ -559,7 +559,7 @@ object AkkaBuild extends Build {
       throw new Exception(failureMessage)
   }
 
-  lazy val osgiDiningHakkersSampleIntegrationTest = Project(id = "akka-sample-osgi-dining-hakkers-integration",
+  lazy val osgiDiningHakkersSampleIntegrationTest = Project(id = "flakka-sample-osgi-dining-hakkers-integration",
     base = file("akka-samples/akka-sample-osgi-dining-hakkers-integration"),
     settings = sampleSettings ++ osgiSampleSettings ++ (
       if (System.getProperty("akka.osgi.sample.test", "true").toBoolean) Seq(
@@ -578,7 +578,7 @@ object AkkaBuild extends Build {
   lazy val osgiSampleSettings: Seq[Setting[_]] = Seq(target :=  baseDirectory.value / "target-sbt")
 
   lazy val docs = Project(
-    id = "akka-docs",
+    id = "flakka-docs",
     base = file("akka-docs"),
     dependencies = Seq(actor, testkit % "test->test",
       remote % "compile;test->test", cluster, slf4j, agent, zeroMQ, camel, osgi, persistence, persistenceTck),
@@ -609,7 +609,7 @@ object AkkaBuild extends Build {
   )
 
   lazy val contrib = Project(
-    id = "akka-contrib",
+    id = "flakka-contrib",
     base = file("akka-contrib"),
     dependencies = Seq(remote, remoteTests % "test->test", cluster, persistence),
     settings = defaultSettings ++ formatSettings ++ scaladocSettings ++ javadocSettings ++ multiJvmSettings ++ Seq(
@@ -847,8 +847,8 @@ object AkkaBuild extends Build {
             case _         => "cross CrossVersion.full"
           }),
         "jarName" -> (s match {
-            case BinVer(bv) => "akka-actor_" + bv + "-" + v + ".jar"
-            case _          => "akka-actor_" + s + "-" + v + ".jar"
+            case BinVer(bv) => "flakka-actor_" + bv + "-" + v + ".jar"
+            case _          => "flakka-actor_" + s + "-" + v + ".jar"
           }),
         "binVersion" -> (s match {
             case BinVer(bv) => bv

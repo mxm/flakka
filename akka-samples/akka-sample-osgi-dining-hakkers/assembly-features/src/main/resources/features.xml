@@ -12,7 +12,7 @@
 
     <feature name='uncommons-maths' description='Uncommons Maths' version='${uncommons-maths.version}' resolver='(obr)'>
         <!-- TODO replace this with upstream uncommons maths 1.2.3 which is OSGi enabled -->
-        <bundle start-level="20">mvn:com.typesafe.akka.akka-sample-osgi-dining-hakkers/uncommons/1.2.2</bundle>
+        <bundle start-level="20">mvn:com.data-artisans.akka-sample-osgi-dining-hakkers/uncommons/1.2.2</bundle>
     </feature>
 
     <feature name='protobuf' description='Protobuf feature' version='${protobuf.version}' resolver='(obr)'>
@@ -39,18 +39,18 @@
         <feature version="${protobuf.version}">protobuf</feature>
         <feature version="${typesafe.config.version}">typesafe-config</feature>
         <feature version="${leveldb.version}">leveldb</feature>
-        <bundle start-level="30">mvn:com.typesafe.akka/akka-actor_${scala.dep.version}/${akka.version}</bundle>
-        <bundle start-level="30">mvn:com.typesafe.akka/akka-osgi_${scala.dep.version}/${akka.version}</bundle>
-        <bundle start-level="30">mvn:com.typesafe.akka/akka-remote_${scala.dep.version}/${akka.version}</bundle>
-        <bundle start-level="30">mvn:com.typesafe.akka/akka-cluster_${scala.dep.version}/${akka.version}</bundle>
-        <bundle start-level="30">mvn:com.typesafe.akka/akka-persistence-experimental_${scala.dep.version}/${akka.version}</bundle>
-        <bundle start-level="30">mvn:com.typesafe.akka/akka-slf4j_${scala.dep.version}/${akka.version}</bundle>
+        <bundle start-level="30">mvn:com.data-artisans/akka-actor_${scala.dep.version}/${akka.version}</bundle>
+        <bundle start-level="30">mvn:com.data-artisans/akka-osgi_${scala.dep.version}/${akka.version}</bundle>
+        <bundle start-level="30">mvn:com.data-artisans/akka-remote_${scala.dep.version}/${akka.version}</bundle>
+        <bundle start-level="30">mvn:com.data-artisans/akka-cluster_${scala.dep.version}/${akka.version}</bundle>
+        <bundle start-level="30">mvn:com.data-artisans/akka-persistence-experimental_${scala.dep.version}/${akka.version}</bundle>
+        <bundle start-level="30">mvn:com.data-artisans/akka-slf4j_${scala.dep.version}/${akka.version}</bundle>
     </feature>
 
     <feature name='dining-hakker' description='Akka Dining Hakker Sample' version='${project.version}' resolver='(obr)'>
         <feature version="${akka.version}">akka</feature>
-        <bundle start-level="50">mvn:com.typesafe.akka.akka-sample-osgi-dining-hakkers/api/${project.version}</bundle>
-        <bundle start-level="50">mvn:com.typesafe.akka.akka-sample-osgi-dining-hakkers/core/${project.version}</bundle>
-        <bundle start-level="50">mvn:com.typesafe.akka.akka-sample-osgi-dining-hakkers/command/${project.version}</bundle>
+        <bundle start-level="50">mvn:com.data-artisans.akka-sample-osgi-dining-hakkers/api/${project.version}</bundle>
+        <bundle start-level="50">mvn:com.data-artisans.akka-sample-osgi-dining-hakkers/core/${project.version}</bundle>
+        <bundle start-level="50">mvn:com.data-artisans.akka-sample-osgi-dining-hakkers/command/${project.version}</bundle>
     </feature>
 </features>

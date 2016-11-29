@@ -1,10 +1,10 @@
-name := "akka-sample-persistence-scala"
+name := "flakka-sample-persistence-scala"
 
-version := "2.3-SNAPSHOT"
+version := "2.3-custom"
 
 scalaVersion := "2.10.4"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-persistence-experimental" % "2.3-SNAPSHOT"
+  "com.data-artisans" %% "flakka-persistence-experimental" % "2.3-custom"
 )
 

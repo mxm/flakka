@@ -48,7 +48,7 @@ Dependencies
 Akka persistence is a separate jar file. Make sure that you have the following dependency in your project::
 
   <dependency>
-    <groupId>com.typesafe.akka</groupId>
+    <groupId>com.data-artisans</groupId>
     <artifactId>akka-persistence-experimental_@binVersion@</artifactId>
     <version>@version@</version>
   </dependency>
@@ -505,7 +505,7 @@ In order to help developers build correct and high quality storage plugins, we p
 The TCK is usable from Java as well as Scala projects, for Java you need to include the akka-persistence-tck-experimental dependency::
 
   <dependency>
-    <groupId>com.typesafe.akka</groupId>
+    <groupId>com.data-artisans</groupId>
     <artifactId>akka-persistence-tck-experimental_${scala.version}</artifactId>
     <version>2.3.5</version>
     <scope>test</scope>

@@ -124,7 +124,7 @@ dependency for akka-actor:
 .. code-block:: xml
 
   <dependency>
-    <groupId>com.typesafe.akka</groupId>
+    <groupId>com.data-artisans</groupId>
     <artifactId>akka-actor_@binVersion@</artifactId>
     <version>@version@</version>
   </dependency>
@@ -154,14 +154,14 @@ SBT installation instructions on `https://github.com/harrah/xsbt/wiki/Setup <htt
     scalaVersion := "@scalaVersion@"
 
     libraryDependencies +=
-      "com.typesafe.akka" %% "akka-actor" % "@version@" @crossString@
+      "com.data-artisans" %% "akka-actor" % "@version@" @crossString@
 
 **Note**: the libraryDependencies setting above is specific to SBT v0.12.x and higher.  If you are using an older version of SBT, the libraryDependencies should look like this:
 
 .. parsed-literal::
 
     libraryDependencies +=
-      "com.typesafe.akka" % "akka-actor_@binVersion@" % "@version@"
+      "com.data-artisans" % "akka-actor_@binVersion@" % "@version@"
 
 
 Using Akka with Gradle
@@ -187,7 +187,7 @@ Uses the `Scala plugin <http://gradle.org/docs/current/userguide/scala_plugin.ht
     }
 
     dependencies {
-      compile group: 'com.typesafe.akka', name: 'akka-actor_@binVersion@', version: '@version@'
+      compile group: 'com.data-artisans', name: 'akka-actor_@binVersion@', version: '@version@'
       compile group: 'org.scala-lang', name: 'scala-library', version: '@scalaVersion@'
     }
 

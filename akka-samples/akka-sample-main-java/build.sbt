@@ -1,10 +1,10 @@
-name := "akka-sample-main-java"
+name := "flakka-sample-main-java"
 
-version := "2.3-SNAPSHOT"
+version := "2.3-custom"
 
 scalaVersion := "2.10.4"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-actor" % "2.3-SNAPSHOT"
+  "com.data-artisans" %% "flakka-actor" % "2.3-custom"
 )
 

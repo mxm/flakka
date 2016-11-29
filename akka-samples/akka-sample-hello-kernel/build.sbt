@@ -4,16 +4,16 @@ name := "hello-kernel"
 
 version := "0.1"
 
-val akkaVersion = "2.3-SNAPSHOT"
+val akkaVersion = "2.3-custom"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-kernel" % akkaVersion,
-  "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-  "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
+  "com.data-artisans" %% "flakka-kernel" % akkaVersion,
+  "com.data-artisans" %% "flakka-actor" % akkaVersion,
+  "com.data-artisans" %% "flakka-slf4j" % akkaVersion,
   "ch.qos.logback" % "logback-classic" % "1.0.7"
 )
 
-mainClass in Compile := Some("akka.kernel.Main")
+mainClass in Compile := Some("flakka.kernel.Main")
 
 enablePlugins(JavaServerAppPackaging)
 

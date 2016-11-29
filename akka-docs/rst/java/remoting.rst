@@ -21,7 +21,7 @@ Preparing your ActorSystem for Remoting
 The Akka remoting is a separate jar file. Make sure that you have the following dependency in your project::
 
   <dependency>
-    <groupId>com.typesafe.akka</groupId>
+    <groupId>com.data-artisans</groupId>
     <artifactId>akka-remote_@binVersion@</artifactId>
     <version>@version@</version>
   </dependency>

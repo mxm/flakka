@@ -37,7 +37,7 @@ Releases Repository
 
 All Akka releases are published via Sonatype to Maven Central, see
 `search.maven.org
-<http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.typesafe.akka%22>`_
+<http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.data-artisans%22>`_
 
 Snapshots Repository
 ^^^^^^^^^^^^^^^^^^^^
@@ -46,7 +46,7 @@ Nightly builds are available in http://repo.akka.io/snapshots/ as both ``SNAPSHO
 timestamped versions.
 
 For timestamped versions, pick a timestamp from
-http://repo.akka.io/snapshots/com/typesafe/akka/akka-actor_@binVersion@/.
+http://repo.akka.io/snapshots/com.data-artisans/akka-actor_@binVersion@/.
 All Akka modules that belong to the same build have the same timestamp.
 
 sbt definition of snapshot repository
@@ -58,7 +58,7 @@ Make sure that you add the repository to the sbt resolvers::
 
 Define the library dependencies with the timestamp as version. For example::
 
-    libraryDependencies += "com.typesafe.akka" % "akka-remote_@binVersion@" % 
+    libraryDependencies += "com.data-artisans" % "akka-remote_@binVersion@" % 
       "2.1-20121016-001042"
 
 maven definition of snapshot repository
@@ -79,7 +79,7 @@ Define the library dependencies with the timestamp as version. For example::
 
   <dependencies>
     <dependency>
-      <groupId>com.typesafe.akka</groupId>
+      <groupId>com.data-artisans</groupId>
       <artifactId>akka-remote_@binVersion@</artifactId>
       <version>2.1-20121016-001042</version>
     </dependency>

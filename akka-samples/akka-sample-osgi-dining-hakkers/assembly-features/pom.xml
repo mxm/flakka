@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.typesafe.akka.akka-sample-osgi-dining-hakkers</groupId>
+        <groupId>com.data-artisans.akka-sample-osgi-dining-hakkers</groupId>
         <artifactId>project</artifactId>
-        <version>2.3-SNAPSHOT</version>
+        <version>2.3-custom</version>
     </parent>
 
     <artifactId>akka-sample-osgi-dining-hakkers</artifactId>

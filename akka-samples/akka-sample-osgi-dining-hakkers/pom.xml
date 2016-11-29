@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.typesafe.akka.akka-sample-osgi-dining-hakkers</groupId>
+    <groupId>com.data-artisans.akka-sample-osgi-dining-hakkers</groupId>
     <artifactId>project</artifactId>
-    <version>2.3-SNAPSHOT</version>
+    <version>2.3-custom</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <akka.version>2.3-SNAPSHOT</akka.version>
+        <akka.version>2.3-custom</akka.version>
         <karaf.version>2.3.1</karaf.version>
         <karaf.tooling.exam.version>${karaf.version}</karaf.tooling.exam.version>
         <netty.version>3.8.0.Final</netty.version>
@@ -75,27 +75,27 @@
             </dependency>
 
             <dependency>
-                <groupId>com.typesafe.akka</groupId>
+                <groupId>com.data-artisans</groupId>
                 <artifactId>akka-osgi_${scala.dep.version}</artifactId>
                 <version>${akka.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.typesafe.akka</groupId>
+                <groupId>com.data-artisans</groupId>
                 <artifactId>akka-cluster_${scala.dep.version}</artifactId>
                 <version>${akka.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.typesafe.akka</groupId>
+                <groupId>com.data-artisans</groupId>
                 <artifactId>akka-remote_${scala.dep.version}</artifactId>
                 <version>${akka.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.typesafe.akka</groupId>
+                <groupId>com.data-artisans</groupId>
                 <artifactId>akka-slf4j_${scala.dep.version}</artifactId>
                 <version>${akka.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.typesafe.akka</groupId>
+                <groupId>com.data-artisans</groupId>
                 <artifactId>akka-persistence-experimental_${scala.dep.version}</artifactId>
                 <version>${akka.version}</version>
             </dependency>
@@ -138,7 +138,7 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>com.typesafe.akka</groupId>
+                <groupId>com.data-artisans</groupId>
                 <artifactId>akka-testkit_${scala.dep.version}</artifactId>
                 <version>${akka.version}</version>
                 <scope>test</scope>
