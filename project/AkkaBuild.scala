@@ -597,8 +597,8 @@ object AkkaBuild extends Build {
         simplePreprocess(src / "docs", target / "contrib", cacheDir / "sphinx" / "preprocessed-contrib", exts, vars ++ contribSrc, s.log)
         orig
       },
-      enableOutput in generatePdf in Sphinx := true,
-      enableOutput in generateEpub in Sphinx := true,
+      enableOutput in generatePdf in Sphinx := false,
+      enableOutput in generateEpub in Sphinx := false,
       unmanagedSourceDirectories in Test <<= sourceDirectory in Sphinx apply { _ ** "code" get },
       Dependencies.docs,
       publishArtifact in Compile := false,

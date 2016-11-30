@@ -4,8 +4,7 @@ This is a fork of "Akka":https://github.com/akka/akka/ 2.3 for "Apache Flink":ht
 
 The general problem is that we want to be able to bind to all inferfaces (e.g. 0.0.0.0) instead of having to bind to the same address as we expect messages to be tagged with. Akka 2.4.x supports this but requires Java 8 and Scala 2.11. Flink targets Java 7 and Scala 2.10/2.11 which makes it impossible to switch to 2.4.x for now.
 
-Flakka addresses this shortcoming and ports back the relevant change for the bind address to the latest version of Akka 2.3. The pull request applied,
-apart from the rebranding is here: https://github.com/akka/akka/pull/15610
+Flakka addresses this shortcoming and ports back the relevant change for the bind address to the latest version of Akka 2.3. The pull request applied, apart from the rebranding is here: https://github.com/akka/akka/pull/15610
 
 h2. Building
 
@@ -21,7 +20,32 @@ Tests then run fine with
 sbt test
 </code>
 
-h2. Akka
+h2. Deploying
+
+This is a summary of the minimal changes taken from project/scripts/release.
+
+First check if signing works:
+
+<code>
+sbt publish-local-signed -Dakka.scaladoc.diagrams=false
+</code>
+
+Add credentials for Sonatype in ~/.sbt/global.sbt:
+
+<code>
+        credentials += Credentials("Sonatype Nexus Repository Manager",
+                          "oss.sonatype.org",
+                          "<your username>",
+                          "<your password>")
+</code>
+
+Then release:
+
+<code>
+sbt -Dakka.scaladoc.diagrams=false -Dakka.genjavadoc.enabled=true -Dpublish.maven.central=true +build-release   
+</code>
+
+h2. About Akka
 
 We believe that writing correct concurrent, fault-tolerant and scalable applications is too hard. Most of the time it's because we are using the wrong tools and the wrong level of abstraction.
 
