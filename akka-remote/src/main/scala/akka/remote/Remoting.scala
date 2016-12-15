@@ -237,6 +237,7 @@ private[remote] class Remoting(_system: ExtendedActorSystem, _provider: RemoteAc
 
   /**
    * When this method returns true, RemoteLifeCycleEvents will be logged as well as be put onto the eventStream.
+   * NOTE: This is currently not called anywhere.
    */
   override protected def logRemoteLifeCycleEvents: Boolean = false
 }
